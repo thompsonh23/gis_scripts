@@ -5,6 +5,14 @@
 # When using polygon features as the input zones in the Zonal Statistics as Table tool, the polygons cannot overlap. 
 # Using Python, the tool's limitations can be overcome by iteratively processing each feature and then recombine the tables when done.
 # In this version of the script, we are only returning the MAJORITY raster value in the polygon, this option can be changed on line 33.
+#
+# VARIABLES:
+#       ws = PATH TO THE WORKSPACE 
+#       DBF_dir = THE FILENAME (LAST PORTION) OF THE FILE CREATED FOR EACH POLYGON
+#       fc = FEATURE CLASS CONTAING ZONES - SHOULD BE IN A FILE GEODATABASE
+#       zoneField = FIELD NAME IN YOUR fc THAT CONTAINS THE ZONE ATTRIBUTIONS
+#       raster = PATH AND NAME OF YOUR RASTER LAYER
+#       zstat_table = LOCATION AND NAME OF THE FINAL TABLE
 # 
 # Modified by Dorn Moore - International Crane Foundation
 # 2016-08-25
