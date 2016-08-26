@@ -8,29 +8,39 @@
 # ---------------------------------------------------------------------------
 
 # Import arcpy module
-import arcpy
+import arcpy, os, sys, string
+from arcpy import env
+
 
 # Script arguments
-Input_Raster_Layer = arcpy.GetParameterAsText(0)
+##Input_Raster_Folder = arcpy.GetParameterAsText(0)
+Input_Raster_Folder = r"C:\Users\Dorn\SharePoint\WHCR Migration Stopover Habit - Dat\bio_30s_esri\bio"
 
-OutputRaster_asc = arcpy.GetParameterAsText(1)
+##OutputRaster_asc = arcpy.GetParameterAsText(1)
 
-nlcd270_asc = arcpy.GetParameterAsText(2)
-if nlcd270_asc == '#' or not nlcd270_asc:
-    nlcd270_asc = "C:\\Users\\Dorn\\SharePoint\\WHCR Migration Stopover Habit - Dat\\Maxent\\layers\\nlcd270.asc" # provide a default value if unspecified
+##nlcd270_asc = arcpy.GetParameterAsText(2)
+##if nlcd270_asc == '#' or not nlcd270_asc:
+##    nlcd270_asc = "C:\\Users\\Dorn\\SharePoint\\WHCR Migration Stopover Habit - Dat\\Maxent\\layers\\nlcd270.asc" # provide a default value if unspecified
+cellRaster = arcpy.env.cellSize
+arcpy.env.cellSize ="C:\\Users\\Dorn\\SharePoint\\WHCR Migration Stopover Habit - Dat\\Maxent\\layers\\270bio_1.asc"
 
-# Local variables:
-bio_1_Resample_tif = ""
+# Preamble
+arcpy.env.workspace =Input_Raster_Folder
 
-# Process: Resample
-tempEnvironment0 = arcpy.env.snapRaster
-arcpy.env.snapRaster = nlcd270.asc
-tempEnvironment1 = arcpy.env.extent
-arcpy.env.extent = nlcd270.asc
-arcpy.Resample_management(Input_Raster_Layer, bio_1_Resample_tif, nlcd270_asc, "NEAREST")
-arcpy.env.snapRaster = tempEnvironment0
-arcpy.env.extent = tempEnvironment1
+# Process Layers
+rList=arcpy.ListRasters()
+for r in rList:
+	print "Processing Raster layer {0}.".format(r)
+	# Process: Resample
+	tempEnvironment0 = arcpy.env.snapRaster
+	arcpy.env.snapRaster = "C:\\Users\\Dorn\\SharePoint\\WHCR Migration Stopover Habit - Dat\\Maxent\\layers\\270bio_1.asc"
+	tempEnvironment1 = arcpy.env.extent
+	arcpy.env.extent = "C:\\Users\\Dorn\\SharePoint\\WHCR Migration Stopover Habit - Dat\\Maxent\\layers\\270bio_1.asc"
+	arcpy.Resample_management(r, "temp{0}".format(r), cellRaster, "MAJORITY")
+	arcpy.env.snapRaster = tempEnvironment0
+	arcpy.env.extent = tempEnvironment1
 
-# Process: Raster to ASCII
-arcpy.RasterToASCII_conversion(bio_1_Resample_tif, OutputRaster_asc)
-
+	# Process: Raster to ASCII
+	arcpy.RasterToASCII_conversion("temp{0}".format(r), "C:\\Users\\Dorn\\Desktop\\Maxent\\layers\\270{0}.asc".format(r))
+	print "New layer 270{0}.asc created.".format(r)
+print "ASCii files created in c:\Users\Dorn\Desktop\Maxent\layers\ directory."
