@@ -1,7 +1,7 @@
 # Calculate Zonal Statistics for Overlapping Zones/Plygons
 # Originally from: http://support.esri.com/technical-article/000011385
 #
-# Purpose:
+# PURPOSE:
 # When using polygon features as the input zones in the Zonal Statistics as Table tool, the polygons cannot overlap. 
 # Using Python, the tool's limitations can be overcome by iteratively processing each feature and then recombine the tables when done.
 # In this version of the script, we are only returning the MAJORITY raster value in the polygon, this option can be changed on line 33.
