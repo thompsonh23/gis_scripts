@@ -23,7 +23,6 @@ from arcpy import env
 from arcpy.sa import *
 arcpy.CheckOutExtension("spatial") #checkout the spatial analyst extension
 
-
 def CreateDirectory(DBF_dir):
     if not os.path.exists(DBF_dir):
         os.mkdir(DBF_dir)
@@ -36,6 +35,11 @@ def ZonalStasAsTable(fc,DBF_dir,raster,zoneField):
         tempTable = DBF_dir + os.sep + "zone_{0}.dbf".format(row.OBJECTID)
         out_layer=arcpy.MakeFeatureLayer_management(fc, lyr, "\"OBJECTID\" = {0}".format(row.OBJECTID))
         print "Creating layer {0}".format(lyr)
+        
+        #Removed the line below and made the feature layer about out_layer - this fixed issues.
+        #out_layer = DBF_dir + os.sep + lyr + ".lyr"
+        #arcpy.SaveToLayerFile_management(lyr, out_layer, "ABSOLUTE")
+        ##print "Saved layer file"
 
         #Parameters for the ZonalStatisticsAsTable command.
         arcpy.gp.ZonalStatisticsAsTable_sa(out_layer, zoneField, raster, tempTable, "DATA", "ALL")
@@ -62,14 +66,6 @@ if __name__ == "__main__":
     zstat_table = DBF_dir + os.sep + "Zonalstat.dbf" #output DBF file name
     
     # Ok, time to do the work!
-    	if fc.SpatialReference==raster.SpatialReference:
-			print"Spatial Reference systems of input layers match - good to go!"
-    		CreateDirectory(DBF_dir)
-    		ZonalStasAsTable(fc,DBF_dir,raster,zoneField)
-    		MergeTables(DBF_dir,zstat_table)
- 		else:
-			print"Error! Spatial reference systems of input layers do NOT match. You need to reproject one of the layers."
-			break
-
-
-    arcpy.CheckInExtension("spatial") # Check the Spatial Analyst Extension back in.
+    CreateDirectory(DBF_dir)
+    ZonalStasAsTable(fc,DBF_dir,raster,zoneField)
+    MergeTables(DBF_dir,zstat_table)
