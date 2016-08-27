@@ -57,12 +57,12 @@ if __name__ == "__main__":
 
 	# YOU NEED TO CHANGE THESE VARIABLES
     # Define the varables - change these to match your needs.
-    ws = "c:\\Your\\WorkSpace\\Path"  #Workspace path 
+    ws = "C:\\Users\\hlthomp\\Dropbox\\ArcGIS\\Default.gdb"  #Workspace path 
     DBF_dir = ws + os.sep + "DBFile" #PATH for output dbf file
     # The feature class being the polygons you are analyzing should be in a FILE GEODATABASE
-    fc = "c:\\Your\\Path\\to\\your\FileGeoDatabase.gdb\\Polygons" #Feature class containing zones
-    zoneField = "YourZoneField" #Field to pull zones from for analysis
-    raster = "c:\\Path\\and\\file\\for\\your\\raster" #Raster layer for analysis
+    fc = "C:\\Users\\hlthomp\\Dropbox\\ArcGIS\\Default.gdb\\RT2015UTM_Buffer200m" #Feature class containing zones
+    zoneField = "ID_HT" #Field to pull zones from for analysis
+    raster = "C:\\Users\\hlthomp\\Dropbox\\ArcGIS\\NLCD\\nlcd_2011_landcover_2011_edition_2014_10_10\\nlcd_2011_landcover_2011_edition_2014_10_10.img" #Raster layer for analysis
     zstat_table = DBF_dir + os.sep + "Zonalstat.dbf" #output DBF file name
     
     # Ok, time to do the work!
